@@ -1,0 +1,29 @@
+const data={
+  "incoterms-term":[
+    ["FOB","本船渡し（指定船積港）","売主が本船に積み込むまでの費用とリスクを負担","運送人渡し（指定地）","運賃込み（指定仕向港）","工場渡し（指定地）"],
+    ["CIF","運賃・保険料込み（指定仕向港）","売主が運賃と保険料を負担し、指定仕向港まで手配","本船渡し（指定船積港）","関税込み持込渡し（指定仕向地）","運送人渡し（指定地）"],
+    ["EXW","工場渡し（指定地）","売主の施設で買主に引き渡す、売主の負担が最小の条件","運賃込み（指定仕向港）","本船渡し（指定船積港）","関税込み持込渡し（指定仕向地）"],
+    ["DDP","関税込み持込渡し（指定仕向地）","輸入通関・関税を含め、指定仕向地まで売主が負担","工場渡し（指定地）","本船渡し（指定船積港）","運賃・保険料込み（指定仕向港）"],
+    ["FCA","運送人渡し（指定地）","売主が指定地で運送人に引き渡す条件","本船渡し（指定船積港）","運賃・保険料込み（指定仕向港）","運賃込み（指定仕向港）"],
+    ["DAP","仕向地持込渡し（指定仕向地）","売主が指定仕向地まで運ぶが、輸入通関は買主が行う","関税込み持込渡し（指定仕向地）","工場渡し（指定地）","運送人渡し（指定地）"]
+  ],
+  "english-japanese":[["Bill of Lading","船荷証券","輸送契約と貨物受取の証拠となる書類","信用状","インボイス","原産地証明書"],["Commercial Invoice","商業送り状","商品名・数量・価格などを記載した取引書類","船荷証券","信用状","梱包明細書"],["Letter of Credit","信用状","銀行が輸入者に代わり支払いを保証する仕組み","商業送り状","為替手形","船荷証券"],["Packing List","梱包明細書","梱包ごとの内容・数量・重量を記載した明細書","原産地証明書","商業送り状","信用状"],["Customs Clearance","通関","税関に輸出入の申告を行い許可を受ける手続き","船積み","保険契約","検品"]],
+  "japanese-english":[["船荷証券","Bill of Lading","Commercial Invoice","Packing List","Letter of Credit"],["信用状","Letter of Credit","Bill of Lading","Certificate of Origin","Customs Clearance"],["原産地証明書","Certificate of Origin","Commercial Invoice","Bill of Lading","Delivery Order"],["関税","Customs Duty","Customs Clearance","Freight Charge","Insurance Premium"],["為替手形","Bill of Exchange","Bill of Lading","Purchase Order","Shipping Advice"]]
+};
+data["incoterms-meaning"]=data["incoterms-term"].map(([term,meaning,correct,...wrong])=>[meaning,term,correct,...wrong.map((_,i)=>["EXW","FOB","CIF","DDP","FCA","DAP"][(i+2)%6])]);
+const labels={"incoterms-term":"用語 → 意味","incoterms-meaning":"意味 → 用語","english-japanese":"英単語 → 日本語","japanese-english":"日本語 → 英単語"};
+let state={mode:"incoterms-term",count:5,questions:[],index:0,score:0,misses:[],selected:null};
+const $=id=>document.getElementById(id); const views=["gate-view","menu-view","quiz-view","result-view"];
+function show(id){views.forEach(v=>$(v).classList.toggle("hidden",v!==id));window.scrollTo({top:0,behavior:"smooth"})}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function chooseMode(mode){state.mode=mode;document.querySelectorAll(".mode-card").forEach(b=>b.classList.toggle("selected",b.dataset.mode===mode))}
+document.querySelectorAll(".mode-card").forEach(b=>b.onclick=()=>chooseMode(b.dataset.mode));
+document.querySelectorAll(".count-option").forEach(b=>b.onclick=()=>{state.count=+b.dataset.count;document.querySelectorAll(".count-option").forEach(x=>x.classList.toggle("selected",x===b))});
+function startQuiz(){const bank=data[state.mode];state.questions=shuffle(bank).slice(0,Math.min(state.count,bank.length)); while(state.questions.length<state.count)state.questions.push(...shuffle(bank).slice(0,state.count-state.questions.length)); state.index=0;state.score=0;state.misses=[];renderQuestion();show("quiz-view")}
+$("start-quiz").onclick=startQuiz;$("quit-quiz").onclick=()=>show("menu-view");$("back-to-menu").onclick=()=>show("menu-view");
+function renderQuestion(){const q=state.questions[state.index], prompt=q[0],correct=q[1],answers=shuffle([correct,...q.slice(3)]).slice(0,4); state.current={prompt,correct,answers};$("quiz-mode-label").textContent=labels[state.mode];$("question-count").textContent=`${String(state.index+1).padStart(2,"0")} / ${String(state.count).padStart(2,"0")}`;$("question-number").textContent=String(state.index+1).padStart(2,"0");$("question-text").textContent=prompt;$("progress-bar").style.width=`${((state.index+1)/state.count)*100}%`;$("next-question").disabled=true;state.selected=null;$("answers").innerHTML=answers.map((a,i)=>`<button type="button" class="answer" data-answer="${a.replaceAll('"','&quot;')}"><span class="answer-index">0${i+1}</span>${a}<span class="answer-check"></span></button>`).join("");document.querySelectorAll(".answer").forEach(b=>b.onclick=()=>selectAnswer(b))}
+function selectAnswer(btn){if(state.selected)return;state.selected=btn.dataset.answer;const correct=state.current.correct;document.querySelectorAll(".answer").forEach(b=>{if(b.dataset.answer===correct){b.classList.add("correct");b.querySelector(".answer-check").textContent="✓"}});if(state.selected!==correct){btn.classList.add("incorrect");btn.querySelector(".answer-check").textContent="×";state.misses.push({prompt:state.current.prompt,chosen:state.selected,correct})}else state.score++;$("next-question").disabled=false;$("next-question").textContent=state.index===state.count-1?"結果を見る →":"次の問題へ →"}
+$("next-question").onclick=()=>{if(state.index<state.count-1){state.index++;renderQuestion()}else renderResult()};
+function renderResult(){const rate=Math.round(state.score/state.count*100);$("result-score").textContent=`${state.score} / ${state.count}`;$("result-rate").textContent=`${rate}%`;$("mistake-count").textContent=`${state.misses.length}問`;$("result-message-title").textContent=rate===100?"パーフェクトです！":rate>=80?"とても良いペースです":"間違えた問題を復習しましょう";$("result-message-copy").textContent=rate===100?"インコタームズと貿易英語の理解がしっかり身についています。":"正しい答えを確認して、知識を定着させましょう。";$("review-list").innerHTML=state.misses.map((m,i)=>`<article class="review-item"><span class="review-index">0${i+1}</span><div><p>${m.prompt}</p><small>あなたの回答：${m.chosen}</small></div><div class="correct-answer"><p>正しい答え：${m.correct}</p><small>もう一度、書籍で確認してみましょう。</small></div></article>`).join("");$("perfect-state").classList.toggle("hidden",state.misses.length!==0);show("result-view")}
+$("gate-form").onsubmit=e=>{e.preventDefault();if($("passcode").value!=="0000"){$("gate-error").textContent="パスコードが正しくありません。もう一度お試しください。";return}if($("remember").checked)localStorage.setItem("tradeWordsAccess",String(Date.now()+14*24*60*60*1000));show("menu-view")};
+if(Number(localStorage.getItem("tradeWordsAccess"))>Date.now())show("menu-view");
