@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#12372a" />
+    <meta name="description" content="貿易実務の用語と英単語を楽しく身につける読者特典サイト" />
+    <title>Trade Words Lab｜読者特典</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark">TW</span><span>TRADE WORDS <em>LAB</em></span></div>
+        <div class="topbar-meta"><span class="status-dot"></span><span>READER BONUS / 2020 EDITION</span></div>
+      </header>
+
+      <section id="gate-view" class="view gate-view">
+        <div class="gate-copy">
+          <p class="eyebrow">READER BONUS / ACCESS 001</p>
+          <h1>貿易のことばを、<br /><span>使える知識</span>に。</h1>
+          <p class="lede">書籍の読者特典サイトへようこそ。<br />4つのクイズで、インコタームズと貿易英語をトレーニングできます。</p>
+        </div>
+        <div class="gate-card card">
+          <div class="card-kicker">PRIVATE READER AREA</div>
+          <h2>パスコードを入力</h2>
+          <p class="muted">書籍に記載されている4桁のパスコードを入力してください。</p>
+          <form id="gate-form">
+            <label for="passcode">PASSCODE</label>
+            <input id="passcode" inputmode="numeric" maxlength="4" autocomplete="one-time-code" placeholder="••••" required />
+            <label class="check-row"><input id="remember" type="checkbox" /><span>この端末で14日間、入力を省略する</span></label>
+            <button class="primary-button" type="submit">サイトに入る <span>→</span></button>
+            <p id="gate-error" class="error-message" role="alert"></p>
+          </form>
+          <p class="tiny-note">※ このサイトは読者特典のモックアップです。パスコードは 0000 でお試しいただけます。</p>
+        </div>
+      </section>
+
+      <section id="menu-view" class="view hidden">
+        <div class="section-heading">
+          <div><p class="eyebrow">TRAINING MENU / 01</p><h1>今日のトレーニングを<br /><span>選びましょう。</span></h1></div>
+          <div class="score-chip"><span class="status-dot"></span>全4モード</div>
+        </div>
+        <div class="mode-grid">
+          <button class="mode-card selected" data-mode="incoterms-term" type="button"><span class="mode-number">01</span><span class="mode-icon">TERM</span><strong>用語 → 意味</strong><small>インコタームズ2020の用語から、正しい意味を選ぶ</small><span class="arrow">↗</span></button>
+          <button class="mode-card" data-mode="incoterms-meaning" type="button"><span class="mode-number">02</span><span class="mode-icon">MEANING</span><strong>意味 → 用語</strong><small>説明文から、該当するインコタームズを選ぶ</small><span class="arrow">↗</span></button>
+          <button class="mode-card" data-mode="english-japanese" type="button"><span class="mode-number">03</span><span class="mode-icon">EN → JP</span><strong>英単語 → 日本語</strong><small>貿易実務で頻出する英単語の意味を選ぶ</small><span class="arrow">↗</span></button>
+          <button class="mode-card" data-mode="japanese-english" type="button"><span class="mode-number">04</span><span class="mode-icon">JP → EN</span><strong>日本語 → 英単語</strong><small>日本語の用語に対応する英語を選ぶ</small><span class="arrow">↗</span></button>
+        </div>
+        <div class="menu-footer card"><div><p class="card-kicker">QUIZ LENGTH</p><h2>1回のトライで何問解きますか？</h2></div><div id="count-options" class="count-options"><button class="count-option selected" data-count="5" type="button">5<span>問</span></button><button class="count-option" data-count="10" type="button">10<span>問</span></button><button class="count-option" data-count="15" type="button">15<span>問</span></button><button class="count-option" data-count="20" type="button">20<span>問</span></button></div><button id="start-quiz" class="primary-button start-button" type="button">トライを始める <span>→</span></button></div>
+      </section>
+
+      <section id="quiz-view" class="view hidden">
+        <div class="quiz-top"><button class="back-button" id="quit-quiz" type="button">← メニューに戻る</button><div class="quiz-label"><span id="quiz-mode-label">用語 → 意味</span><span class="divider"></span><span id="question-count">01 / 05</span></div></div>
+        <div class="progress-track"><div id="progress-bar"></div></div>
+        <div class="question-wrap"><p class="eyebrow">QUESTION <span id="question-number">01</span></p><h1 id="question-text">インコタームズの問題文</h1><p id="question-hint" class="muted">正しい答えを1つ選んでください。</p><div id="answers" class="answer-grid"></div><button id="next-question" class="primary-button next-button" type="button" disabled>回答を確定 <span>→</span></button></div>
+      </section>
+
+      <section id="result-view" class="view hidden">
+        <div class="result-header"><div><p class="eyebrow">COMPLETED / RESULTS</p><h1>トライ、おつかれさまでした。</h1></div><button class="secondary-button" id="back-to-menu" type="button">もう一度解く</button></div>
+        <div class="result-summary"><div class="result-score"><span id="result-score">0 / 5</span><small>正答数</small></div><div class="result-rate"><span id="result-rate">0%</span><small>正答率</small></div><div class="result-message"><span class="result-emoji">✦</span><div><strong id="result-message-title">いいペースです</strong><p id="result-message-copy">間違えた問題を復習して、もう一度挑戦してみましょう。</p></div></div></div>
+        <div class="review-heading"><div><p class="eyebrow">REVIEW</p><h2>間違えた問題を復習</h2></div><span id="mistake-count" class="mistake-count">0問</span></div>
+        <div id="review-list" class="review-list"></div>
+        <div id="perfect-state" class="perfect-state hidden">全問正解です。すばらしい！</div>
+      </section>
+      <footer><span>TRADE WORDS LAB</span><span>© Reader Bonus Mockup</span></footer>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
