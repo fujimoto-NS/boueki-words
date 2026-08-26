@@ -51,6 +51,22 @@
           <button class="mode-card" data-mode="japanese-english" type="button"><span class="mode-number">04</span><span class="mode-icon">JP → EN</span><strong>日本語 → 英単語</strong><small>日本語の用語に対応する英語を選ぶ</small><span class="arrow">↗</span></button>
         </div>
         <div class="menu-footer card"><div><p class="card-kicker">QUIZ LENGTH</p><h2>1回のトライで何問解きますか？</h2></div><div id="count-options" class="count-options"><button class="count-option selected" data-count="5" type="button">5<span>問</span></button><button class="count-option" data-count="10" type="button">10<span>問</span></button><button class="count-option" data-count="15" type="button">15<span>問</span></button><button class="count-option" data-count="20" type="button">20<span>問</span></button></div><button id="start-quiz" class="primary-button start-button" type="button">トライを始める <span>→</span></button></div>
+        <div class="tools-heading"><p class="eyebrow">ALTERNATIVE STUDY TOOLS / 02</p><h2>すきま時間に、<span>ことばを深める。</span></h2></div>
+        <div class="tools-grid"><button id="open-flashcards" class="tool-card card" type="button"><span class="tool-number">01 / FLASH CARDS</span><strong>単語カード</strong><small>英単語をタップして裏返し、日本語訳・例文を確認する</small><span class="arrow">↗</span></button><button id="open-index" class="tool-card card" type="button"><span class="tool-number">02 / INDEX</span><strong>貿易英語 索引</strong><small>ABC順・五十音順で探して、意味と書籍のページを確認する</small><span class="arrow">↗</span></button></div>
+      </section>
+
+      <section id="flashcard-view" class="view hidden">
+        <div class="subpage-top"><button class="back-button" id="back-from-flashcards" type="button">← メニューに戻る</button><span class="subpage-label">FLASH CARDS</span></div>
+        <div class="tool-hero"><p class="eyebrow">ALTERNATIVE TOOL / 01</p><h1>単語カードで、<br /><span>くり返し覚える。</span></h1><p class="muted">カードをタップすると、裏面の日本語訳と例文を確認できます。</p></div>
+        <div class="flashcard-stage"><button id="flashcard" class="flashcard" type="button" aria-label="単語カードを裏返す"><span class="flashcard-face flashcard-front"><span class="flashcard-count" id="flashcard-count">01 / 10</span><span class="flashcard-type">TRADE ENGLISH</span><strong id="flashcard-word">Bill of Lading</strong><span class="flashcard-hint">TAP TO FLIP ↻</span></span><span class="flashcard-face flashcard-back"><span class="flashcard-count">MEANING</span><strong id="flashcard-meaning">船荷証券</strong><span class="flashcard-example" id="flashcard-example">例文：Please send us the bill of lading.</span><span class="flashcard-hint">TAP TO RETURN ↻</span></span></button></div>
+        <div class="flashcard-controls"><button id="previous-card" class="secondary-button" type="button">← 前のカード</button><span id="flashcard-progress" class="flashcard-progress">1 / 10</span><button id="next-card" class="primary-button" type="button">次のカード →</button></div>
+      </section>
+
+      <section id="index-view" class="view hidden">
+        <div class="subpage-top"><button class="back-button" id="back-from-index" type="button">← メニューに戻る</button><span class="subpage-label">WORD INDEX</span></div>
+        <div class="tool-hero index-hero"><p class="eyebrow">ALTERNATIVE TOOL / 02</p><h1>貿易英語の、<br /><span>索引をひらく。</span></h1><p class="muted">英単語と日本語訳をCSVデータから読み込み、検索・並べ替えができます。</p></div>
+        <div class="index-toolbar card"><label for="index-search">SEARCH</label><input id="index-search" type="search" placeholder="単語・日本語訳で検索" /><div class="sort-buttons"><button class="sort-button selected" data-sort="english" type="button">ABC順</button><button class="sort-button" data-sort="kana" type="button">五十音順</button></div></div>
+        <div id="index-status" class="index-status" aria-live="polite">CSVを読み込んでいます…</div><div id="index-list" class="index-list"></div>
       </section>
 
       <section id="quiz-view" class="view hidden">
